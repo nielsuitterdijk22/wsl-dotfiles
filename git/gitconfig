@@ -1,0 +1,29 @@
+[user]
+	email = n.uitterdijk@das.nl
+	name = Niels Uitterdijk
+[credentials]
+	helper = store
+[credential]
+	helper = store
+	credentialStore = cache
+	azreposCredentialType = oauth
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[maintenance]
+	repo = /home/projects/AzureDevOpsPlatform
+[rerere]
+	enabled = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[fetch]
+	prune = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

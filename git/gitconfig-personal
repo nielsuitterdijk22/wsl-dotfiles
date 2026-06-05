@@ -1,0 +1,7 @@
+[user]
+	name = Niels Uitterdijk
+	email = gh@glassmask.mozmail.com
+[credentials]
+	helper = store
+[rerere]
+	enabled = true

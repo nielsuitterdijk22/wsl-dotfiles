@@ -1,0 +1,19 @@
+[user]
+	email = n.uitterdijk@das.nl
+	name = Niels Uitterdijk
+[credentials]
+	helper = store
+[credential]
+	helper = store
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[maintenance]
+	repo = /home/projects/AzureDevOpsPlatform
+[rerere]
+	enabled = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate

@@ -1,0 +1,35 @@
+# Core apt packages — install with: sudo apt update && xargs -a apt-core.txt sudo apt install -y
+# Lines starting with # and blank lines are ignored by scripts/install.sh
+
+# Build essentials & fetch tools
+build-essential
+ca-certificates
+curl
+wget
+gnupg
+apt-transport-https
+software-properties-common
+lsb-release
+unzip
+zip
+
+# Shell & terminal
+zsh
+vim
+htop
+direnv
+
+# Handy CLI utilities
+jq
+yq
+cloc
+git
+git-filter-repo
+
+# Network tooling
+net-tools
+dnsutils
+tcpdump
+telnet
+traceroute
+whois

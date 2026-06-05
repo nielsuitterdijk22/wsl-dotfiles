@@ -1,0 +1,15 @@
+# Never commit secrets or machine-local state
+.git-credentials
+*.bak.*
+*.log
+
+# Local-only shell overrides (sourced by zshrc if present)
+zshrc.local
+.zshrc.local
+
+# SSH / keys / tokens — defensive
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+**/.ssh/**

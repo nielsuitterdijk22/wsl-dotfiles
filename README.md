@@ -1,29 +1,33 @@
-# wsl-dotfiles
+# dotfiles
 
-My WSL (Ubuntu 24.04) development environment, captured so a fresh machine is one
-script away. Shell config, git setup, Linux deps, and env-management tooling.
+Cross-platform dev environment for **WSL (Ubuntu 24.04)** and **macOS**. Shell
+config, git setup, package lists, and env-management tooling — one script to
+bootstrap a fresh machine.
 
-> **Source machine:** Ubuntu 24.04.2 LTS on WSL2 · zsh + Oh My Zsh + Powerlevel10k
+## Quick start
 
-## Quick start (new device)
-
+### WSL (Ubuntu)
 ```bash
-# 1. Clone
-git clone https://github.com/<you>/wsl-dotfiles.git ~/wsl-dotfiles
-cd ~/wsl-dotfiles
-
-# 2. Review, then bootstrap everything
-less scripts/install.sh
+git clone https://github.com/<you>/wsl-dotfiles.git ~/dotfiles
+cd ~/dotfiles
+less scripts/install.sh   # review first
 ./scripts/install.sh
-
-# 3. New shell
 exec zsh
 ```
 
-Partial runs:
+### macOS
+```bash
+git clone https://github.com/<you>/wsl-dotfiles.git ~/dotfiles
+cd ~/dotfiles
+less scripts/install.sh   # review first
+./scripts/install.sh      # installs Homebrew if missing, then packages
+exec zsh
+```
+
+Partial runs (work on both platforms):
 
 ```bash
-./scripts/install.sh --core      # apt packages only
+./scripts/install.sh --core      # packages only (apt on Linux, brew on macOS)
 ./scripts/install.sh --external  # gh, az, terraform, kubectl
 ./scripts/install.sh --dotfiles  # symlink configs only
 ```
@@ -32,29 +36,31 @@ Partial runs:
 
 | Path | What |
 |------|------|
-| `shell/zshrc` | zsh config: Oh My Zsh plugins, aliases (git/az/tf/docker/k8s), nvm, direnv, conda hook |
+| `shell/zshrc` | zsh config: Oh My Zsh plugins, aliases (git/az/tf/docker/k8s), nvm, direnv, conda hook; Homebrew init on macOS |
 | `shell/bashrc` | bash fallback (history, completion, conda init) |
 | `shell/p10k.zsh` | Powerlevel10k prompt configuration |
 | `git/gitconfig` | global git config (rebase pulls, autosetup remote, rerere, gh credential helper) |
 | `git/gitconfig-work` · `git/gitconfig-personal` | per-context identity includes |
-| `wsl/wsl.conf` | `/etc/wsl.conf` — systemd on, default user |
-| `packages/apt-core.txt` | core apt packages, consumed by the installer |
-| `packages/external-tools.md` | third-party repos & manual installers (az, terraform, dotnet, etc.) |
-| `scripts/install.sh` | idempotent bootstrap: deps → omz/p10k → nvm → symlinks → wsl.conf → default shell |
+| `wsl/wsl.conf` | `/etc/wsl.conf` — systemd on, default user (Linux only) |
+| `packages/apt-core.txt` | core apt packages (Linux) |
+| `packages/brew-core.txt` | core Homebrew packages (macOS) |
+| `packages/external-tools.md` | third-party tools with install commands for both platforms |
+| `scripts/install.sh` | idempotent bootstrap: detects OS → deps → omz/p10k → nvm → symlinks → shell |
 
 ## How the install works
 
-`install.sh` symlinks the tracked files into `$HOME` (backing up any existing real
-file as `*.bak.<timestamp>`), so edits made later in `~/.zshrc` flow straight back
-into the repo. Pull the repo, `git diff`, commit — that's the update loop.
+`install.sh` detects the OS at runtime and uses `brew` on macOS or `apt` on
+Linux. It symlinks the tracked files into `$HOME` (backing up any existing real
+file as `*.bak.<timestamp>`), so edits made in `~/.zshrc` etc. flow straight
+back into the repo.
 
 ## Manual / host-side bits (not automated)
 
-- **Docker** comes from Docker Desktop's WSL integration on the Windows host, not
-  installed in-distro.
-- **Miniconda** is optional — the shell rc files auto-source it *if present* at
+- **Docker**: Docker Desktop on macOS (Homebrew Cask: `docker`), or Docker
+  Desktop's WSL integration on Windows.
+- **Miniconda**: optional — the shell rc files auto-source it *if present* at
   `~/miniconda3` / `~/miniconda`. Install separately if you want it.
-- **Microsoft-repo tools** (PowerShell, .NET SDK 9/10, Azure Functions Core Tools,
+- **Microsoft-repo tools** (PowerShell, .NET SDK, Azure Functions Core Tools,
   sqlcmd), **Go**, and **cosign**: see `packages/external-tools.md`.
 
 ## Notes / caveats
@@ -62,6 +68,6 @@ into the repo. Pull the repo, `git diff`, commit — that's the update loop.
 - The global `git/gitconfig` uses `helper = store`, which writes credentials in
   **plaintext** to `~/.git-credentials`. The GitHub-specific helper delegates to
   `gh auth git-credential` instead. Adjust to taste on a new box.
-- `[maintenance] repo` in the gitconfig points at a machine-specific path — harmless,
-  but repoint or drop it on a new device.
+- `[maintenance] repo` in the gitconfig points at a machine-specific path —
+  harmless, but repoint or drop it on a new device.
 - Authenticate after install: `gh auth login`, `az login`.

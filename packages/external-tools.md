@@ -1,7 +1,27 @@
-# External tooling (third-party apt repos & manual installers)
+# External tooling (third-party apt repos, Homebrew, & manual installers)
+
+`scripts/install.sh` handles these automatically. Listed here for manual reproduction.
+
+## macOS (Homebrew)
+
+| Tool | Brew formula | Notes |
+|------|-------------|-------|
+| **GitHub CLI** (`gh`) | `brew install gh` | Auth with `gh auth login` after install |
+| **Azure CLI** (`az`) | `brew install azure-cli` | |
+| **Terraform** | `brew tap hashicorp/tap && brew install hashicorp/tap/terraform` | Removed from Homebrew core after BSL license change |
+| **kubectl** | `brew install kubectl` | |
+| **PowerShell** (`pwsh`) | `brew install --cask powershell` | |
+| **.NET SDK** | `brew install --cask dotnet-sdk` | |
+| **Go** | `brew install go` | |
+| **cosign** | `brew install cosign` | |
+| **NVM + Node** | see NVM section below | |
+| **Docker** | `brew install --cask docker` | Docker Desktop |
+| **Miniconda** | `brew install --cask miniconda` | optional Python env manager |
+
+## Linux / WSL (apt + third-party repos)
 
 These are **not** in the default Ubuntu repos. `scripts/install.sh` wires up the
-repos and installs them. Listed here for reference / manual reproduction.
+repos and installs them.
 
 | Tool | Source | Notes |
 |------|--------|-------|

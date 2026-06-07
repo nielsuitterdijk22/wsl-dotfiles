@@ -1,0 +1,18 @@
+# Core Homebrew packages — install with: brew install $(grep -vE '^\s*#|^\s*$' brew-core.txt | tr '\n' ' ')
+# Consumed by scripts/install.sh on macOS.
+
+# Fetch tools
+wget
+gnupg
+
+# Shell & terminal
+vim
+htop
+direnv
+
+# Handy CLI utilities
+jq
+yq
+cloc
+git
+git-filter-repo

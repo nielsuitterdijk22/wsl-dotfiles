@@ -43,4 +43,4 @@ github.copilot-chat
 christian-kohler.path-intellisense
 ms-azuretools.vscode-docker
 ms-vsliveshare.vsliveshare
-ms-kubernetes-tools.vscode-helm
+technosophos.vscode-helm

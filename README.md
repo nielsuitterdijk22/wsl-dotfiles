@@ -37,6 +37,7 @@ Partial runs (work on both platforms):
 ./scripts/install.sh --core      # packages only (apt on Linux, brew on macOS)
 ./scripts/install.sh --external  # gh, az, terraform, kubectl
 ./scripts/install.sh --dotfiles  # symlink configs only
+./scripts/install.sh --vscode    # VS Code app (macOS), settings, keybindings, extensions
 ```
 
 ## What's in here
@@ -52,7 +53,10 @@ Partial runs (work on both platforms):
 | `packages/apt-core.txt` | core apt packages (Linux) |
 | `packages/brew-core.txt` | core Homebrew packages (macOS) |
 | `packages/external-tools.md` | third-party tools with install commands for both platforms |
-| `scripts/install.sh` | idempotent bootstrap: detects OS → deps → omz/p10k → nvm → symlinks → shell |
+| `packages/vscode-extensions.txt` | VS Code extension IDs, installed via `code --install-extension` |
+| `vscode/settings.json` | VS Code user settings (formatters, Copilot, terminal, etc.) |
+| `vscode/keybindings.json` | VS Code keybindings — `cmd+t` new terminal, `cmd+r` split terminal |
+| `scripts/install.sh` | idempotent bootstrap: detects OS → deps → omz/p10k → nvm → symlinks → VS Code → shell |
 
 ## How the install works
 
@@ -63,6 +67,11 @@ back into the repo.
 
 ## Manual / host-side bits (not automated)
 
+- **VS Code on WSL**: on Windows/WSL, VS Code itself normally lives on the
+  Windows side (install it there, then use the Remote-WSL extension), so
+  `--vscode` only symlinks `~/.config/Code/User/*` and installs extensions —
+  it won't help if `code` isn't already on your WSL `$PATH` (Remote-WSL puts
+  it there automatically once you've opened a WSL folder from Windows once).
 - **Docker**: Docker Desktop on macOS (Homebrew Cask: `docker`), or Docker
   Desktop's WSL integration on Windows.
 - **Miniconda**: optional — the shell rc files auto-source it *if present* at

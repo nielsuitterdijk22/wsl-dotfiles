@@ -1,0 +1,9 @@
+[
+  // Free up cmd+t / cmd+r from their defaults (Go to Symbol, Open Recent)
+  { "key": "cmd+t", "command": "-workbench.action.showAllSymbols" },
+  { "key": "cmd+r", "command": "-workbench.action.openRecent" },
+
+  // New terminal / split terminal
+  { "key": "cmd+t", "command": "workbench.action.terminal.new" },
+  { "key": "cmd+r", "command": "workbench.action.terminal.split" }
+]

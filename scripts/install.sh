@@ -6,7 +6,8 @@
 #   ./scripts/install.sh            # full setup
 #   ./scripts/install.sh --core     # packages only (apt or brew)
 #   ./scripts/install.sh --dotfiles # symlink dotfiles only
-#   ./scripts/install.sh --external # gh, az, terraform, kubectl
+#   ./scripts/install.sh --external # gh, az, terraform, kubectl, helm
+#   ./scripts/install.sh --vscode   # VS Code app (macOS), settings, keybindings, extensions
 #
 set -euo pipefail
 
@@ -64,6 +65,7 @@ install_external_macos() {
   fi
   command -v az        >/dev/null || brew install azure-cli
   command -v kubectl   >/dev/null || brew install kubectl
+  command -v helm      >/dev/null || brew install helm
 }
 
 # ── Linux (WSL/Ubuntu): apt ───────────────────────────────────────────────────
@@ -107,6 +109,9 @@ install_external_linux() {
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${arch}/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && rm -f kubectl
   fi
+
+  # Helm (official install script)
+  command -v helm >/dev/null || curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
 
   warn "Microsoft repo tools (powershell, dotnet-sdk, azure-functions-core-tools, sqlcmd) and Go/cosign:"
   warn "  see packages/external-tools.md for the per-tool repo setup."
@@ -174,6 +179,56 @@ apply_wsl_conf() {
   warn "Run 'wsl --shutdown' from Windows for wsl.conf changes to take effect."
 }
 
+# ── VS Code ────────────────────────────────────────────────────────────────────
+
+install_vscode_app_macos() {
+  if ! command -v code >/dev/null; then
+    log "Installing Visual Studio Code (cask)"
+    brew install --cask visual-studio-code
+    if [[ -f /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+    if [[ -f /usr/local/bin/brew ]]; then eval "$(/usr/local/bin/brew shellenv)"; fi
+  fi
+}
+
+vscode_user_dir() {
+  if [[ "$OS" == "macos" ]]; then
+    echo "$HOME/Library/Application Support/Code/User"
+  else
+    echo "$HOME/.config/Code/User"
+  fi
+}
+
+link_vscode_config() {
+  log "Symlinking VS Code settings & keybindings"
+  local dir; dir="$(vscode_user_dir)"
+  mkdir -p "$dir"
+  backup() {
+    if [ -e "$1" ] && [ ! -L "$1" ]; then
+      mv "$1" "$1.bak.$(date +%s)" && warn "backed up $1"
+    fi
+  }
+  ln_s() { backup "$2"; ln -sfn "$1" "$2"; echo "  $2 -> $1"; }
+  ln_s "$REPO_DIR/vscode/settings.json"    "$dir/settings.json"
+  ln_s "$REPO_DIR/vscode/keybindings.json" "$dir/keybindings.json"
+}
+
+install_vscode_extensions() {
+  if ! command -v code >/dev/null; then
+    warn "VS Code 'code' CLI not found in PATH; skipping extension install."
+    warn "  (On WSL, install VS Code on Windows and enable 'code' in PATH via the Remote-WSL extension.)"
+    return
+  fi
+  log "Installing VS Code extensions"
+  grep -vE '^\s*#|^\s*$' "$REPO_DIR/packages/vscode-extensions.txt" | \
+    xargs -L1 code --install-extension
+}
+
+setup_vscode() {
+  if [[ "$OS" == "macos" ]]; then install_vscode_app_macos; fi
+  link_vscode_config
+  install_vscode_extensions
+}
+
 # ── Dispatch ───────────────────────────────────────────────────────────────────
 
 install_core() {
@@ -189,12 +244,14 @@ main() {
     --core)     install_core ;;
     --dotfiles) link_dotfiles ;;
     --external) install_external ;;
+    --vscode)   setup_vscode ;;
     all|"")
       install_core
       install_external
       install_omz
       install_nvm
       link_dotfiles
+      setup_vscode
       if [[ "$OS" == "linux" ]]; then apply_wsl_conf; fi
       set_shell
       log "Done. Restart your shell (or 'exec zsh')."

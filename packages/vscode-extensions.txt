@@ -1,0 +1,46 @@
+# VS Code extensions — install with:
+#   grep -vE '^\s*#|^\s*$' vscode-extensions.txt | xargs -L1 code --install-extension
+# Consumed by scripts/install.sh (--vscode / full run).
+
+# .NET
+ms-dotnettools.csharp
+ms-dotnettools.csdevkit
+ms-dotnettools.vscode-dotnet-runtime
+ms-dotnettools.vscodeintellicode-csharp
+jmrog.vscode-nuget-package-manager
+formulahendry.dotnet-test-explorer
+jchannon.csharpextensions
+SonarSource.sonarlint-vscode
+
+# Python
+ms-python.python
+ms-python.vscode-pylance
+ms-python.isort
+ms-python.black-formatter
+
+# SQL
+ms-mssql.mssql
+ms-mssql.sql-database-projects-vscode
+ms-mssql.sql-bindings-vscode
+
+# Looks & feel
+oderwat.indent-rainbow
+zhuangtongfa.material-theme
+atommaterial.a-file-icon-vscode
+aaron-bond.better-comments
+
+# Auxiliary
+esbenp.prettier-vscode
+ms-vscode.powershell
+ms-azuretools.vscode-bicep
+hashicorp.terraform
+redhat.vscode-yaml
+redhat.vscode-xml
+ms-vscode-remote.remote-wsl
+eamodio.gitlens
+github.copilot
+github.copilot-chat
+christian-kohler.path-intellisense
+ms-azuretools.vscode-docker
+ms-vsliveshare.vsliveshare
+ms-kubernetes-tools.vscode-helm

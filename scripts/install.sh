@@ -182,12 +182,21 @@ apply_wsl_conf() {
 # ── VS Code ────────────────────────────────────────────────────────────────────
 
 install_vscode_app_macos() {
-  if ! command -v code >/dev/null; then
-    log "Installing Visual Studio Code (cask)"
-    brew install --cask visual-studio-code
-    if [[ -f /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
-    if [[ -f /usr/local/bin/brew ]]; then eval "$(/usr/local/bin/brew shellenv)"; fi
+  if command -v code >/dev/null; then
+    return
   fi
+  if [[ -d "/Applications/Visual Studio Code.app" ]]; then
+    # Installed outside Homebrew (e.g. downloaded manually) — adopt it instead
+    # of letting `brew install --cask` fail with "already an App" and abort
+    # the rest of the setup (settings/keybindings/extensions).
+    log "Visual Studio Code.app found outside Homebrew; adopting with --force"
+    brew install --cask visual-studio-code --force || warn "Cask adopt failed; continuing anyway"
+  else
+    log "Installing Visual Studio Code (cask)"
+    brew install --cask visual-studio-code || warn "Cask install failed; continuing anyway"
+  fi
+  if [[ -f /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+  if [[ -f /usr/local/bin/brew ]]; then eval "$(/usr/local/bin/brew shellenv)"; fi
 }
 
 vscode_user_dir() {

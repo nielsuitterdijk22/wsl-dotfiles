@@ -16,6 +16,13 @@ exec zsh
 ```
 
 ### macOS
+On a **brand-new Mac**, `git` doesn't exist yet — it ships with the Xcode
+Command Line Tools, not the OS. Install those first (this pops a GUI dialog;
+wait for it to finish before continuing):
+```bash
+xcode-select --install
+```
+Then:
 ```bash
 git clone https://github.com/<you>/wsl-dotfiles.git ~/dotfiles
 cd ~/dotfiles

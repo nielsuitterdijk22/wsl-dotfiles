@@ -6,7 +6,7 @@
 #   ./scripts/install.sh            # full setup
 #   ./scripts/install.sh --core     # packages only (apt or brew)
 #   ./scripts/install.sh --dotfiles # symlink dotfiles only
-#   ./scripts/install.sh --external # gh, az, terraform, kubectl
+#   ./scripts/install.sh --external # gh, az, terraform, kubectl, helm
 #   ./scripts/install.sh --vscode   # VS Code app (macOS), settings, keybindings, extensions
 #
 set -euo pipefail
@@ -65,6 +65,7 @@ install_external_macos() {
   fi
   command -v az        >/dev/null || brew install azure-cli
   command -v kubectl   >/dev/null || brew install kubectl
+  command -v helm      >/dev/null || brew install helm
 }
 
 # ── Linux (WSL/Ubuntu): apt ───────────────────────────────────────────────────
@@ -108,6 +109,9 @@ install_external_linux() {
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${arch}/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && rm -f kubectl
   fi
+
+  # Helm (official install script)
+  command -v helm >/dev/null || curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
 
   warn "Microsoft repo tools (powershell, dotnet-sdk, azure-functions-core-tools, sqlcmd) and Go/cosign:"
   warn "  see packages/external-tools.md for the per-tool repo setup."

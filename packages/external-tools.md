@@ -10,6 +10,7 @@
 | **Azure CLI** (`az`) | `brew install azure-cli` | |
 | **Terraform** | `brew tap hashicorp/tap && brew install hashicorp/tap/terraform` | Removed from Homebrew core after BSL license change |
 | **kubectl** | `brew install kubectl` | |
+| **Helm** | `brew install helm` | |
 | **PowerShell** (`pwsh`) | `brew install --cask powershell` | |
 | **.NET SDK** | `brew install --cask dotnet-sdk` | |
 | **Go** | `brew install go` | |
@@ -35,6 +36,7 @@ repos and installs them.
 | **sqlcmd** | `packages.microsoft.com` | pkg: `sqlcmd` |
 | **cosign** | sigstore apt repo | container signing |
 | **kubectl** | binary in `/usr/local/bin` | `curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"` |
+| **Helm** | official install script | `curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \| sudo bash` |
 | **NVM + Node** | `github.com/nvm-sh/nvm` | manages Node versions (see below) |
 | **Docker** | Docker Desktop WSL integration | usually exposed from Windows host, not installed in-distro |
 | **Miniconda** | `repo.anaconda.com` | optional Python env manager; `.zshrc`/`.bashrc` auto-source it if present |

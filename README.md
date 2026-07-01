@@ -35,7 +35,7 @@ Partial runs (work on both platforms):
 
 ```bash
 ./scripts/install.sh --core      # packages only (apt on Linux, brew on macOS)
-./scripts/install.sh --external  # gh, az, terraform, kubectl
+./scripts/install.sh --external  # gh, az, terraform, kubectl, helm
 ./scripts/install.sh --dotfiles  # symlink configs only
 ./scripts/install.sh --vscode    # VS Code app (macOS), settings, keybindings, extensions
 ```

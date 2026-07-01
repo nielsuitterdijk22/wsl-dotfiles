@@ -25,7 +25,18 @@ detect_os() {
 
 # ── macOS: Homebrew ────────────────────────────────────────────────────────────
 
+ensure_xcode_clt() {
+  if xcode-select -p >/dev/null 2>&1; then
+    return
+  fi
+  log "Xcode Command Line Tools not found; triggering install"
+  xcode-select --install 2>/dev/null || true
+  warn "A GUI installer should have opened. Finish it, then re-run this script."
+  exit 1
+}
+
 install_homebrew() {
+  ensure_xcode_clt
   if ! command -v brew >/dev/null; then
     log "Installing Homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

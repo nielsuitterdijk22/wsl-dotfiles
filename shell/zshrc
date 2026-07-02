@@ -132,3 +132,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Load local customizations if they exist
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# Scaleway CLI autocomplete initialization.
+eval "$(scw autocomplete script shell=zsh)"

@@ -5,5 +5,16 @@
 
   // New terminal / split terminal
   { "key": "cmd+t", "command": "workbench.action.terminal.new" },
-  { "key": "cmd+r", "command": "workbench.action.terminal.split" }
+{
+    "key": "cmd+r",
+    "command": "workbench.action.terminal.split"
+},
+{
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+        "text": "\u001b\r"
+    },
+    "when": "terminalFocus"
+}
 ]
